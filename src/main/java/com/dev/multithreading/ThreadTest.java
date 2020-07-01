@@ -5,10 +5,16 @@ import org.apache.logging.log4j.Logger;
 
 public class ThreadTest extends Thread {
     private static final Logger logger = LogManager.getLogger(ThreadTest.class);
+    private final Count count;
+
+    public ThreadTest(Count count) {
+        this.count = count;
+    }
 
     public void run() {
-        for (int i = 1; i <= 1000; i++) {
-            logger.info("ThreadTest: " + i + "\n");
+        while (!count.finish()) {
+            count.increment();
+            logger.info("ThreadTest: " + count.getCount() + "\n");
         }
     }
 }

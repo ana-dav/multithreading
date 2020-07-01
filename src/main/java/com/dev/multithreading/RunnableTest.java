@@ -6,9 +6,16 @@ import org.apache.logging.log4j.Logger;
 public class RunnableTest implements Runnable {
     private static final Logger logger = LogManager.getLogger(RunnableTest.class);
 
+    private final Count count;
+
+    public RunnableTest(Count count) {
+        this.count = count;
+    }
+
     public void run() {
-        for (int i = 1; i <= 1000; i++) {
-            logger.info("Runnable: " + i + "\n");
+        while (!count.finish()) {
+            count.increment();
+            logger.info("Runnable: " + count.getCount() + "\n");
         }
     }
 }
